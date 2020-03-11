@@ -1,0 +1,97 @@
+Sub OnClick(Byval Item)                                                  
+Dim objConnection
+    Dim objCommand
+    Dim strConnectionString
+    Dim strSQL
+    Dim objRecordset
+    Dim lngCount
+    Dim FieldValue
+    Dim CurDT
+    Dim V1
+    Dim V2 'CurDT
+    Dim V3
+    Dim V4
+    
+    Set V1 = ScreenItems("Var1")
+
+    
+    
+	Set CurDT = ScreenItems("CurDT")
+	'MsgBox("1")
+	CurDT.Text = Now()
+    Set V3 = ScreenItems("Var3")
+    Set V4 = ScreenItems("Var4")
+            strConnectionString = "Provider=MSDASQL.1;Persist Security Info=False;Data Source=CC_test_20_03_10_07_22_27R"
+             'strSQL = "SELECT ID,DataTime,Var1,Var2 from UA#Plavki"
+             strSQL = "INSERT UA#Plavki VALUES ("&V1.OutputValue&",'"&CurDT.Text&"',"&V3.OutputValue&","&V4.OutputValue&",'jasdj'"&")"
+             MsgBox(strSQL)
+             
+              
+             
+             
+            
+            
+             Set objConnection = CreateObject("ADODB.Connection")
+
+	objConnection.ConnectionString = strConnectionString
+
+	
+	objConnection.Open
+
+
+	Set objRecordset = CreateObject("ADODB.Recordset")
+
+	
+	Set objCommand = CreateObject("ADODB.Command")
+
+	
+	objCommand.ActiveConnection = objConnection
+	
+	objCommand.CommandText = strSQL
+	
+	Set objRecordset = objCommand.Execute
+
+	HMIRuntime.Trace("Ok")
+
+
+
+	
+'	lngCount = objRecordset.Fields.Count
+'	
+'
+'	
+'
+'	
+'	
+''	If (lngCount > 0) Then
+'	
+'	objRecordset.movefirst
+'
+'	FieldValue = objRecordset.Fields(2).Value
+'
+'	st.text=FieldValue
+'	
+''	Else
+	
+'	MsgBox ("no data")
+
+ 
+
+'End If
+Set CurDT = ScreenItems("Var3")
+MsgBox(CurDT.OutputValue)
+
+Set objCommand = Nothing
+
+objConnection.Close
+
+Set objRecordset = Nothing
+
+Set objConnection = Nothing
+Set V1 = Nothing
+Set V2 = Nothing
+Set V3 = Nothing
+Set V4 = Nothing
+
+Set CurDT = Nothing
+End Sub
